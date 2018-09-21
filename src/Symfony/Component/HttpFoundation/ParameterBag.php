@@ -16,7 +16,7 @@ namespace Symfony\Component\HttpFoundation;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ParameterBag implements \IteratorAggregate, \Countable
+class ParameterBag implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
      * Parameter storage.
@@ -231,4 +231,25 @@ class ParameterBag implements \IteratorAggregate, \Countable
     {
         return \count($this->parameters);
     }
+
+    public function offsetExists($offset): bool {
+        return $this->has($offset);
+    }
+
+    public function offsetGet($offset) {
+        return $this->get($offset);
+    }
+
+    public function offsetSet($offset, $value): void {
+        if (null === $offset){
+            throw new \OutOfBoundsException('offset can not be null');
+        }else {
+            $this->set($offset, $value);
+        }
+    }
+
+    public function offsetUnset($offset): void {
+        $this->remove($offset);
+    }
+
 }
