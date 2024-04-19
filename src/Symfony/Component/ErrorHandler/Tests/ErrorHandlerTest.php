@@ -285,7 +285,7 @@ class ErrorHandlerTest extends TestCase
                 $this->assertArrayHasKey('exception', $context);
                 $exception = $context['exception'];
                 $this->assertInstanceOf(\ErrorException::class, $exception);
-                $this->assertSame('User Deprecated: foo at foo.php line 12', $exception->getMessage());
+                $this->assertSame('User Deprecated: foo', $exception->getMessage());
                 $this->assertSame(\E_USER_DEPRECATED, $exception->getSeverity());
             };
 
@@ -398,7 +398,7 @@ class ErrorHandlerTest extends TestCase
             $this->assertArrayHasKey('exception', $context);
             $exception = $context['exception'];
             $this->assertInstanceOf(\ErrorException::class, $exception);
-            $this->assertSame('User Deprecated: Foo deprecation at foo.php line 12', $exception->getMessage());
+            $this->assertSame('User Deprecated: Foo deprecation', $exception->getMessage());
         };
 
         $logger = $this->createMock(LoggerInterface::class);
@@ -504,7 +504,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertArrayHasKey('exception', $log[2]);
         $exception = $log[2]['exception'];
         $this->assertInstanceOf(\ErrorException::class, $exception);
-        $this->assertSame('Deprecated: Foo message at foo.php line 123', $exception->getMessage());
+        $this->assertSame('Deprecated: Foo message', $exception->getMessage());
         $this->assertSame('foo.php', $exception->getFile());
         $this->assertSame(123, $exception->getLine());
         $this->assertSame(\E_DEPRECATED, $exception->getSeverity());

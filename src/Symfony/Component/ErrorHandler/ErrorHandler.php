@@ -428,7 +428,7 @@ class ErrorHandler
             return false;
         }
 
-        $logMessage = $this->levels[$type].': '.$message.' at '.$file.' line '.$line;
+        $logMessage = $this->levels[$type].': '.$message;
 
         if (null !== self::$toStringException) {
             $errorAsException = self::$toStringException;
@@ -544,7 +544,7 @@ class ErrorHandler
             try {
                 $this->isRecursive = true;
                 $level = ($type & $level) ? $this->loggers[$type][1] : LogLevel::DEBUG;
-                $this->loggers[$type][0]->log($level, $logMessage, $errorAsException ? ['exception' => $errorAsException] : []);
+                $this->loggers[$type][0]->log($level, $logMessage.' at '.$file.' line '.$line, $errorAsException ? ['exception' => $errorAsException] : []);
             } finally {
                 $this->isRecursive = false;
 
